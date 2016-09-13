@@ -7,7 +7,6 @@ public class Spin : MonoBehaviour
 
     void Start()
     {
-
     }
 
     void Update()

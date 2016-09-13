@@ -1,50 +1,27 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class FpsMouse : MonoBehaviour
 {
-    public enum RotationAxes
-    {
-        MouseXAndY,
-        MouseX,
-        MouseY
-    }
+    public const float SensitivityHorizontal = 6.0f;
+    public const float SensitivityVertical = 6.0f;
+    public const float CameraHeight = 2.0f;
 
-    public RotationAxes axes = RotationAxes.MouseXAndY;
-    public float sensitivityVert = 6.0f;
-    public float sensitivityHor = 6.0f;
+    private float rotationX;
 
-    private float _rotationX = 0;
-
-    void Start()
+    private void Start()
     {
         Debug.Log("Begining first person camera script");
     }
 
-    void Update()
+    private void Update()
     {
-        if (axes == RotationAxes.MouseX)
-        {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityHor, 0);
-        }
-        else if (axes == RotationAxes.MouseY)
-        {
-            _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
-            _rotationX = Mathf.Clamp(_rotationX, -45.0f, 45.0f);
+        rotationX -= Input.GetAxis("Mouse Y") * SensitivityVertical;
+        rotationX = Mathf.Clamp(rotationX, -45.0f, 45.0f);
 
-            var rotationY = transform.localEulerAngles.y;
+        var delta = Input.GetAxis("Mouse X") * SensitivityHorizontal;
+        var rotationY = transform.localEulerAngles.y + delta;
 
-            transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
-        }
-        else
-        {
-            _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
-            _rotationX = Mathf.Clamp(_rotationX, -45.0f, 45.0f);
-
-            var delta = Input.GetAxis("Mouse X") * sensitivityHor;
-            var rotationY = transform.localEulerAngles.y + delta;
-
-            //transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
-        }
+        transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
+        transform.position = new Vector3(transform.position.x, CameraHeight, transform.position.z);
     }
 }
