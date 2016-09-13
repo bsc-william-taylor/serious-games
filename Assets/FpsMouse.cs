@@ -10,9 +10,9 @@ public class FpsMouse : MonoBehaviour
         MouseY
     }
 
-    public float sensitivityVert = 9.0f;
-    public float sensitivityHor = 9.0f;
     public RotationAxes axes = RotationAxes.MouseXAndY;
+    public float sensitivityVert = 6.0f;
+    public float sensitivityHor = 6.0f;
 
     private float _rotationX = 0;
 
@@ -44,7 +44,7 @@ public class FpsMouse : MonoBehaviour
             var delta = Input.GetAxis("Mouse X") * sensitivityHor;
             var rotationY = transform.localEulerAngles.y + delta;
 
-            transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
+            //transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
         }
     }
 }

@@ -7,7 +7,7 @@ public class FpsKeyboard : MonoBehaviour
 {
     private CharacterController characterController;
     private float gravity = -9.8f;
-    private float speed = 1.0f;
+    private float speed = 0.25f;
 
     void Start()
     {
