@@ -4,13 +4,15 @@ public class FpsMouse : MonoBehaviour
 {
     public const float SensitivityHorizontal = 6.0f;
     public const float SensitivityVertical = 6.0f;
-    public const float CameraHeight = 2.0f;
+    
+    public float CameraHeight;
 
     private float rotationX;
 
     private void Start()
     {
         Debug.Log("Begining first person camera script");
+        CameraHeight = transform.localPosition.y;
     }
 
     private void Update()
@@ -20,7 +22,7 @@ public class FpsMouse : MonoBehaviour
 
         var delta = Input.GetAxis("Mouse X") * SensitivityHorizontal;
         var rotationY = transform.localEulerAngles.y + delta;
-
+        
         transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
         transform.position = new Vector3(transform.position.x, CameraHeight, transform.position.z);
     }
