@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
 [RequireComponent(typeof(CharacterController))]
 [AddComponentMenu("Control Script/FPS Input")]
@@ -13,6 +15,22 @@ public class FpsKeyboard : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+
+        var json = new JSONClass();
+        json.Add("Hello", new JSONData("HelloWorld"));
+
+        StartCoroutine(WebService.Get(string.Empty, HandleGet));
+        StartCoroutine(WebService.Post(string.Empty, json, HandlePost));
+    }
+
+    private static void HandlePost(JSONNode response)
+    {
+        Debug.Log(response.ToString());
+    }
+
+    private static void HandleGet(JSONNode response)
+    {
+        Debug.Log(response);
     }
 
     private void Update()
