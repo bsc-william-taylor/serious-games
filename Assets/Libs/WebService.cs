@@ -8,14 +8,14 @@ public class WebService : MonoBehaviour
 {
     private const string Server = "http://localhost:8080";
 
-    public static IEnumerator<WWW> Get(string url, Action<JSONNode> action)
+    public static IEnumerator<WWW> Get(string url, Action<JSONNode, string> action)
     {
         var www = new WWW(Server + url);
         yield return www;
-        action(JSON.Parse(www.text));
+        action(JSON.Parse(www.text), www.error);
     }
 
-    public static IEnumerator<WWW> Post(string url, JSONClass json, Action<JSONNode> action)
+    public static IEnumerator<WWW> Post(string url, JSONClass json, Action<JSONNode, string> action)
     {
         var bytes = Encoding.UTF8.GetBytes(json.ToString());
         var headers = new Dictionary<string, string>
@@ -25,6 +25,6 @@ public class WebService : MonoBehaviour
 
         var request = new WWW(Server + url, bytes, headers);
         yield return request;
-        action(JSON.Parse(request.text));
+        action(JSON.Parse(request.text), request.error);
     }
 }
