@@ -6,7 +6,7 @@ using SimpleJSON;
 
 public class WebService : MonoBehaviour
 {
-    private const string Server = "http://localhost:8080/";
+    private const string Server = "http://localhost:8080";
 
     public static IEnumerator<WWW> Get(string url, Action<JSONNode> action)
     {
