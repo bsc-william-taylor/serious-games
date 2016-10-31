@@ -24,14 +24,9 @@ public class ButtonManager : MonoBehaviour
         GUI.GetComponent<GuiManager>().OnCloseLogin();
     }
 
-    public void OnLoginGuest()
+    public void OnLogin()
     {
-        GUI.GetComponent<GuiManager>().OnLoginGuest();
-    }
-
-    public void OnLoginStudent()
-    {
-        GUI.GetComponent<GuiManager>().OnLoginStudent();
+        GUI.GetComponent<GuiManager>().OnLogin();
     }
 
     public void OnQuit()
