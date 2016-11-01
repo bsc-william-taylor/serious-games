@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class GuiManager : MonoBehaviour
 {
     private List<GameObject> scores = new List<GameObject>();
+    private string message = string.Empty;
+    private bool show = false;
 
     public GameObject Leaderboard;
     public GameObject Login;
@@ -32,16 +34,20 @@ public class GuiManager : MonoBehaviour
     
     public void OnPlay()
     {
+        if (show) return;
         SceneManager.LoadScene(1);
     }
 
     public void OnCloseLogin()
     {
+        if (show) return;
         Login.SetActive(false);
     }
 
     public void OnCloseLeaderboard()
     {
+        if (show) return;
+
         Leaderboard.SetActive(false);
         foreach (var go in scores)
         {
@@ -51,6 +57,8 @@ public class GuiManager : MonoBehaviour
 
     public void OnLeaderboard()
     {
+        if (show) return;
+
         Leaderboard.SetActive(true);
         foreach (var go in scores)
         {
@@ -86,47 +94,99 @@ public class GuiManager : MonoBehaviour
 
     public void OnLogin()
     {
+        if (show) return;
+
         Login.SetActive(true);
+    }
+
+    void OnGUI()
+    {
+        if (show)
+        {
+            var x = Screen.width/2;
+            var y = Screen.height/2;
+            var w = 300;
+            var h = 100;
+
+            GUI.backgroundColor = Color.white;
+            GUI.color = Color.white;
+            GUI.skin.window.normal.background = Texture2D.whiteTexture;
+            GUI.skin.window.normal.textColor = Color.black;
+            GUI.skin.window.active = GUI.skin.window.normal;
+            GUI.skin.window.focused = GUI.skin.window.normal;
+            GUI.skin.window.hover = GUI.skin.window.normal;
+            GUI.skin.window.onActive = GUI.skin.window.normal;
+            GUI.skin.window.onHover = GUI.skin.window.normal;
+            GUI.skin.window.onFocused = GUI.skin.window.normal;
+            GUI.Window(0, new Rect(x - w / 2, y - h / 2, w, h), id => StartCoroutine(ShowMessage()), "", GUI.skin.window);
+        }
+    }
+
+    IEnumerator ShowMessage()
+    {
+        GUI.skin.label.fontSize = 14;
+        GUI.skin.label.normal.textColor = Color.black;
+        GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+        GUI.Label(new Rect(0, 20, 300, 30), message, new GUIStyle(GUI.skin.label));
+        GUI.skin.button.normal = GUI.skin.button.onHover;
+
+        if (GUI.Button(new Rect(50, 60, 200, 30), "OK", new GUIStyle(GUI.skin.button)))
+        {
+            yield return new WaitForSeconds(0.25f);
+            show = false;
+        }
+    }
+
+    public void ShowMessageBox(string msg)
+    {
+        show = true;
+        message = msg;
     }
 
     public void OnLoginGuest()
     {
-        StartCoroutine(WebService.Post("/login-guest", new JSONClass(), (action, error) =>
+        if (show) return;
+
+        StartCoroutine(WebService.Post("/login-guest", new JSONClass(), (data, error) =>
         {
-            if (string.IsNullOrEmpty(error) && action["loginSuccess"].AsBool)
+            if (string.IsNullOrEmpty(error) && data["version"] != null)
             {
-                //UnityEditor.EditorUtility.DisplayDialog("Login Status", "Guest logged in ", "Okay");
+                ShowMessageBox("Guest logged in");
             }
             else
             {
-                //UnityEditor.EditorUtility.DisplayDialog("Login Status", "Guest could not login ", "Okay");
+                ShowMessageBox("Guest could not login as game is not public");
             }
         }));
     }
 
-    public void OnLoginStudent()
+    public void OnLoginStudent(string username, string password)
     {
-        
-        /*
-        var loginData = new JSONClass();
-        loginData["username"] = "william-taylor";
-        loginData["password"] = "password";
+        if (show) return;
 
-        StartCoroutine(WebService.Post("/login-student", loginData, (action, error) =>
+        var loginData = new JSONClass();
+        loginData["username"] = username;
+        loginData["password"] = password;
+
+        Debug.Log("Username:" + username);
+        Debug.Log("Password:" + password);
+
+        StartCoroutine(WebService.Post("/login-student", loginData, (data, error) =>
         {
-            if (string.IsNullOrEmpty(error))
+            if (string.IsNullOrEmpty(error) && data["loginSuccess"].AsBool)
             {
-                //UnityEditor.EditorUtility.DisplayDialog("Login Status", "Student logged in ", "Okay");
+                ShowMessageBox("Student logged in");
             }
             else
             {
-                //UnityEditor.EditorUtility.DisplayDialog("Login Status", "Student could not login ", "Okay");
+                ShowMessageBox("Student could not login");
             }
-        }));*/
+        }));
     }
 
     public void OnQuit()
     {
+        if(show) return;
         Application.Quit();
     }
 }
