@@ -94,9 +94,11 @@ public class GuiManager : MonoBehaviour
 
     public void OnLogin()
     {
-        if (show) return;
+        Application.OpenURL("http://unity3d.com/");
+        /*
+                if (show) return;
 
-        Login.SetActive(true);
+                Login.SetActive(true);*/
     }
 
     void OnGUI()
