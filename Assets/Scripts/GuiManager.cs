@@ -92,13 +92,16 @@ public class GuiManager : MonoBehaviour
         scores.Add(textObject);
     }
 
+    public void OnCertification()
+    {
+        System.Diagnostics.Process.Start(@"file:///D:/Unity Projects/Serious Game Coursework/Certification/index.html#william taylor");
+    }
+
     public void OnLogin()
     {
-        Application.OpenURL("http://unity3d.com/");
-        /*
-                if (show) return;
+        if (show) return;
 
-                Login.SetActive(true);*/
+        Login.SetActive(true);
     }
 
     void OnGUI()

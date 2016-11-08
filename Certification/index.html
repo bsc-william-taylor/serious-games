@@ -20,8 +20,8 @@
             doc.text(textOffset, y, text);
         }
 
-        var hash = window.location.hash;
-        var name = parseName(hash.substring(1));
+        var hash = '#' + prompt('Enter your name')//window.location.hash;
+        var name = parseName(hash.substring(1)); // 
         var date = moment().format('DD/MM/YYYY');
         var doc = new jsPDF('landscape');
 

@@ -15,6 +15,11 @@ public class ButtonManager : MonoBehaviour
         GUI.GetComponent<GuiManager>().OnLeaderboard();
     }
 
+    public void OnCertification()
+    {
+        GUI.GetComponent<GuiManager>().OnCertification();
+    }
+
     public void OnCloseLeaderboard()
     {
         GUI.GetComponent<GuiManager>().OnCloseLeaderboard();
