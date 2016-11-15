@@ -94,7 +94,7 @@ public class GuiManager : MonoBehaviour
 
     public void OnCertification()
     {
-        System.Diagnostics.Process.Start(@"file:///D:/Unity Projects/Serious Game Coursework/Certification/index.html#william taylor");
+        System.Diagnostics.Process.Start(@"http://www.williamsamtaylor.co.uk/apps/sg/index.html#william taylor");
     }
 
     public void OnLogin()
