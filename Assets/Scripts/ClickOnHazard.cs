@@ -1,156 +1,124 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using System.Collections.Generic;
 
-public class ClickOnHazard : MonoBehaviour {
-    public string str = "";
-	Scene scene;
+public class ClickOnHazard : MonoBehaviour
+{
+    public HashSet<string> identified = new HashSet<string>();
+    private string hitObject = "";
+    Scene scene;
 
-    bool computer;
-    bool phone;
-    bool monitor;
-    bool microwave;
-    bool vending_machine;
+    public Dictionary<string, string> descriptions = new Dictionary<string, string>();
+    Dictionary<string, string> hDescriptions = new Dictionary<string, string>();
+    Dictionary<string, string> sDescriptions = new Dictionary<string, string>();
 
+    HashSet<string> safetyItems = new HashSet<string>();
+    HashSet<string> hazardItems = new HashSet<string>();
 
-    bool fire_door;
-    bool exit_light;
-    bool co2_extinguisher;
-    bool door_access;
-    bool emergency_exit_sign;
-    bool ringer;
-    bool fire_call_sign;
-    bool fire_extinguisher_sign;
-    bool fire_hose_sign;
-    bool fire_procedures_sign;
-    bool foam_extinguisher;
-    bool powder_extinguisher;
-    bool water_extinguisher;
+    HashSet<string> collectedHazardItems = new HashSet<string>();
+    HashSet<string> collectedSafetyItems = new HashSet<string>();
 
     // Use this for initialization
-	void Start () {
+    void Start()
+    {
         scene = SceneManager.GetActiveScene();
 
-        computer = false;
-        phone = false;
-        monitor = false;
-        microwave = false;
-        vending_machine = false;
+        Debug.Log("active scene: " + scene.ToString());
 
-        fire_door = false;
-        exit_light = false;
-        co2_extinguisher = false;
-        door_access = false;
-        emergency_exit_sign = false;
-        ringer = false;
-        fire_call_sign = false;
-        fire_extinguisher_sign = false;
-        fire_hose_sign = false;
-        fire_procedures_sign = false;
-        foam_extinguisher = false;
-        powder_extinguisher = false;
-        water_extinguisher = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetMouseButtonDown (0)) {
+        hDescriptions.Add("computer", "Computers");
+        hDescriptions.Add("phone", "Telephones");
+        hDescriptions.Add("monitor", "Monitors");
+        hDescriptions.Add("microwave", "Microwave ovens");
+        hDescriptions.Add("snacksvendingmachine", "Snacks vending machines");
+        hDescriptions.Add("drinksvendingmachine", "Drinks vending machines");
+        hDescriptions.Add("coffee_machine", "Coffee machines");
+        hDescriptions.Add("printer", "Printers");
+        hDescriptions.Add("front_heater", "Radiators");
+        hDescriptions.Add("fuel_can", "Fuel canisters");
+
+        hazardItems = new HashSet<string>(hDescriptions.Keys);
+
+        sDescriptions.Add("fire_door", "Fire doors");
+        sDescriptions.Add("emergency_exit_sign", "Emergency exit lights");
+        sDescriptions.Add("co2_extinguisher", "CO2 Fire Extinguishers");
+        sDescriptions.Add("foam_extinguisher", "Foam Fire Extinguishers");
+        sDescriptions.Add("powder_extinguisher", "Powder Fire Extinguishers");
+        sDescriptions.Add("water_extinguisher", "Water Fire Extinguishers");
+        sDescriptions.Add("sprinkler", "Sprinklers");
+        sDescriptions.Add("fire_alarm", "Fire alarms");
+        sDescriptions.Add("fire_alarm_call_point_sign", "Fire alarm call point signs");
+        sDescriptions.Add("fire_extinguisher_sign", "Fire extinguisher point signs");
+        sDescriptions.Add("fire_hose_sign", "Fire hose reel signs");
+        sDescriptions.Add("hydrant", "Hydrant");
+        sDescriptions.Add("fire_procedures_sign", "Fire action signs");
+        sDescriptions.Add("emergency_door_release_trigger", "Emergency door release triggers");
+        sDescriptions.Add("fire_alarm_trigger", "Fire alarm triggers");
+        sDescriptions.Add("aid_box", "First aid cabinets");
+
+        safetyItems = new HashSet<string>(sDescriptions.Keys);
+
+        foreach (var entry in hDescriptions)
+        {
+            descriptions.Add(entry.Key, entry.Value);
+        }
+
+        foreach (var entry in sDescriptions)
+        {
+            descriptions.Add(entry.Key, entry.Value);
+        }
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit)) {
-                if(scene != null) {
-                    if(scene.name == "Hazards") {
-                        if ((hit.collider.name == "Mesh3") || (hit.collider.name == "Mesh12")) {
-                            if(computer == false) str += "\nComputer";
-                            computer = true;
+            if (Physics.Raycast(ray, out hit))
+            {
+                hitObject = hit.collider.name.ToLower();
+                System.Console.WriteLine(hitObject);
+                Debug.Log(hitObject);
+                if (scene != null)
+                {
+                    if (scene.name == "Hazards")
+                    {
+                        if (hazardItems.Contains(hitObject))
+                        {
+                            if (collectedHazardItems.Contains(hitObject))
+                            {
+                                collectedHazardItems.Remove(hitObject);
+                            }
+                            else
+                            {
+                                collectedHazardItems.Add(hitObject);
+                            }
+                            identified = collectedHazardItems;
                         }
-                        else if ((hit.collider.name == "Mesh1") || (hit.collider.name == "Mesh2")) {
-                            if(phone == false) str += "\nPhone";
-                            phone = true;
-                        }
-                        /*else if ((hit.collider.name == "Mesh13") || (hit.collider.name == "Mesh17")) {
-                            str = "Keyboard";
-                        }*/
-                        else if ((hit.collider.name == "Mesh5") || (hit.collider.name == "Mesh11") || (hit.collider.name == "Mesh7") || (hit.collider.name == "Mesh9")) {
-                            if(monitor == false) str += "\nMonitor";
-                            monitor = true;
-                        }
-                        /*else if ((hit.collider.name == "Mesh14") || (hit.collider.name == "Mesh16")) {
-                            str = "Mouse";
-                        }*/
-                        /*else if (hit.collider.name == "Mesh15") {
-                            str = "Table";
-                        }*/
-                        else if (hit.collider.name == "Microwave_Mesh") {
-                            if(microwave == false) str += "\nMicrowave";
-                            microwave = true;
-                        }
-                        else if ((hit.collider.name == "Vending_Machine_Mesh") || (hit.collider.name == "Vending_Machine_Mesh")) {
-                            if(vending_machine == false) str += "\nVending Machine";
-                            vending_machine = true;
-                        }
-                    } else if(scene.name == "Safety") {
-                        if (hit.collider.name == "fire_door") {
-                            if(fire_door == false) str += "\nFire door";
-                            fire_door = true;
-                        }
-                        else if ((hit.collider.name == "Exit Light") || (hit.collider.name == "Exit Light 1") || (hit.collider.name == "Exit Light 2") || (hit.collider.name == "Exit Light 3")) {
-                            if(emergency_exit_sign == false) str += "\nEmergency exit sign";
-                            emergency_exit_sign = true;
-                        }
-                        else if (hit.collider.name == "co2 extinguisher") {
-                            if(co2_extinguisher == false) str += "\nCO2 Extinguisher";
-                            co2_extinguisher = true;
-                        }
-                        else if (hit.collider.name == "door access") {
-                            if(door_access == false) str += "\nDoor access";
-                            door_access = true;
-                        }
-                        else if (hit.collider.name == "emergency_exit_sign") {
-                            if(emergency_exit_sign == false) str += "\nEmergency exit sign";
-                            emergency_exit_sign = true;
-                        }
-                        else if (hit.collider.name == "ringer") {
-                            if(ringer == false) str += "\nFire alarm ringer";
-                            ringer = true;
-                        }
-                        else if (hit.collider.name == "fire_call_sign") {
-                            if(fire_call_sign == false) str += "\nFire call sign";
-                            fire_call_sign = true;
-                        }
-                        else if (hit.collider.name == "fire_extinguisher_sign") {
-                            if(fire_extinguisher_sign == false) str += "\nFire extinguisher sign";
-                            fire_extinguisher_sign = true;
-                        }
-                        else if (hit.collider.name == "fire_hose_sign") {
-                            if(fire_hose_sign == false) str += "\nFire hose sign";
-                            fire_hose_sign = true;
-                        }
-                        else if (hit.collider.name == "fire_procedures_sign") {
-                            if(fire_procedures_sign == false) str += "\nFire procedures sign";
-                            fire_procedures_sign = true;
-                        }
-                        else if (hit.collider.name == "foam_extinguisher") {
-                            if(foam_extinguisher == false) str += "\nFoam extinguisher";
-                            foam_extinguisher = true;
-                        }
-                        else if (hit.collider.name == "powder_extinguisher") {
-                            if(powder_extinguisher == false) str += "\nPowder extinguisher";
-                            powder_extinguisher = true;
-                        }
-                        else if (hit.collider.name == "water_extinguisher") {
-                            if(water_extinguisher == false) str += "\nWater extinguisher";
-                            water_extinguisher = true;
+                    }
+                    else if (scene.name == "Safety")
+                    {
+                        if (safetyItems.Contains(hitObject))
+                        {
+                            if (collectedSafetyItems.Contains(hitObject))
+                            {
+                                collectedSafetyItems.Remove(hitObject);
+                            }
+                            else
+                            {
+                                collectedSafetyItems.Add(hitObject);
+                            }
+                            identified = collectedSafetyItems;
                         }
                     }
                 }
-                
-
-                /*if(str.Length > 0) {
-                    Debug.Log(str);
-                    Debug.Log("--------------");
-                }*/
+                else
+                {
+                    identified.Add("scene is null");
+                }
             }
-        } 
-	}
+        }
+    }
 }
