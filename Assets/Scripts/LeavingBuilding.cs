@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LeavingBuilding : MonoBehaviour {
 
-    public bool leftBuilding;
+    public static bool leftBuilding;
 
 	// Use this for initialization
 	void Start () {

@@ -17,6 +17,11 @@ public class Score : MonoBehaviour {
     void Update () {
         if (clickOnHazard != null) {
             text.text = "";
+            foreach (var identifiedItem in clickOnHazard.identified)
+            {
+                text.text += "\n" + clickOnHazard.descriptions[identifiedItem];
+            }   
+/*
             if (clickOnHazard.computer == true)                       { text.text += "Computer\n";                       }
             if (clickOnHazard.phone == true)                          { text.text += "Phone\n";                          }
             if (clickOnHazard.monitor == true)                        { text.text += "Monitor\n";                        }
@@ -39,7 +44,7 @@ public class Score : MonoBehaviour {
             if (clickOnHazard.emergency_door_release_trigger == true) { text.text += "Emergency Door Release Trigger\n"; }
             if (clickOnHazard.fire_alarm_cable == true)               { text.text += "Fire Alarm Cable\n";               }
             if (clickOnHazard.propane_canister == true)               { text.text += "Propane Canister\n";               }
-
+*/
         }
     }
 }
