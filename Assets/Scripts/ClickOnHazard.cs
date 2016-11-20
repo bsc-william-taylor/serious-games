@@ -80,7 +80,7 @@ public class ClickOnHazard : MonoBehaviour
             {
                 hitObject = hit.collider.name.ToLower();
                 System.Console.WriteLine(hitObject);
-                Debug.Log(hitObject);
+                //Debug.Log(hitObject);
                 if (scene != null)
                 {
                     if (scene.name == "Hazards")

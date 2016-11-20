@@ -54,13 +54,10 @@ public class ScoreManager : MonoBehaviour
         {
             text.text = "CLICK ON HAZARD IS NULL";
         }
-
-        if ((leavingBuilding0 != null) || (leavingBuilding1 != null) || (leavingBuilding2 != null))
+ 
+        if (LeavingBuilding.leftBuilding)
         {
-            if ((leavingBuilding0.leftBuilding == true) || (leavingBuilding1.leftBuilding == true) || (leavingBuilding2.leftBuilding == true))
-            {
-                text.text = text.text + "\n" + "Left Building!";
-            }
+            text.text = text.text + "\n" + "Left Building!";
         }
     }
 }
