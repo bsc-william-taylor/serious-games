@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
 public class Equipable : MonoBehaviour
@@ -47,8 +44,6 @@ public class Equipable : MonoBehaviour
                     {
                         State.SetFireExtinguisher(FighterState.EquipableFireExtinguishers.Water);
                     }
-
-                    //gameObject.SetActive(false);
                 }
             }
         }
