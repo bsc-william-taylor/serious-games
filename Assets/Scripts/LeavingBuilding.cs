@@ -1,24 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LeavingBuilding : MonoBehaviour {
-
+public class LeavingBuilding : MonoBehaviour
+{
     public static bool leftBuilding;
 
-	// Use this for initialization
-	void Start () {
-	    leftBuilding = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Use this for initialization
+    void Start()
+    {
+        leftBuilding = false;
+    }
 
-    void OnCollisionEnter(Collision col) {
-        if(col.gameObject.name == "Character") {
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.name == "Character")
+        {
             Debug.Log("Left the building!");
             leftBuilding = true;
         }
-    }   
+    }
 }

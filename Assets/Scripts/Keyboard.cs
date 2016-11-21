@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class Keyboard : MonoBehaviour 
+public class Keyboard : MonoBehaviour
 {
-	public void Update () 
+    public void Update()
     {
-	    if (Input.GetKeyDown("escape"))
-	    {
+        if (Input.GetKeyDown("escape"))
+        {
             Application.Quit();
         }
     }

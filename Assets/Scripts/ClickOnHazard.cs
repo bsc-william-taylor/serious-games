@@ -94,7 +94,7 @@ public class ClickOnHazard : MonoBehaviour
                     identified = collectedItems;
                 }
                 else if (safetyItems.Contains(hitObject) && scene.name == "Safety")
-                { 
+                {
                     if (collectedSafetyItems.Contains(hitObject))
                     {
                         collectedItems.Remove(hitObject);

@@ -16,7 +16,7 @@ public class GuiManager : MonoBehaviour
     public GameObject Login;
 
     void Start()
-    { 
+    {
         if (Leaderboard != null && Login != null)
         {
             var fontSize = 30;
@@ -24,14 +24,14 @@ public class GuiManager : MonoBehaviour
 
             for (var i = 0; i < 10; i++, y -= 55)
             {
-                NewTextElement(i, "HelloWorld " + i, y, fontSize);
+                NewTextElement(i, "Random Player  " + i, y, fontSize);
             }
 
             Leaderboard.SetActive(false);
             Login.SetActive(false);
         }
     }
-    
+
     public void OnPlay()
     {
         if (show) return;
@@ -72,7 +72,7 @@ public class GuiManager : MonoBehaviour
         var textObject = new GameObject("score" + uniqueID);
         textObject.SetActive(false);
 
-       
+
         var text = textObject.AddComponent<Text>();
         text.text = contents;
         text.alignment = TextAnchor.MiddleCenter;
@@ -108,8 +108,8 @@ public class GuiManager : MonoBehaviour
     {
         if (show)
         {
-            var x = Screen.width/2;
-            var y = Screen.height/2;
+            var x = Screen.width / 2;
+            var y = Screen.height / 2;
             var w = 300;
             var h = 100;
 
@@ -191,7 +191,7 @@ public class GuiManager : MonoBehaviour
 
     public void OnQuit()
     {
-        if(show) return;
+        if (show) return;
         Application.Quit();
     }
 }

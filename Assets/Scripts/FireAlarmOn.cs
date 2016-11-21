@@ -4,14 +4,9 @@ public class FireAlarmOn : MonoBehaviour
 {
     public AudioSource AudioFile;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && AudioFile != null)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

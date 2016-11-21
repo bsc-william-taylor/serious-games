@@ -18,7 +18,7 @@ public class Openable : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.distance <= 2.0f && hit.collider.name == name)
+                if (hit.distance <= 4.0f && hit.collider.transform == transform)
                 {
                     if (!isOpen)
                     {

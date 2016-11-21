@@ -65,22 +65,26 @@ public class FighterState : MonoBehaviour
         Smoke.transform.Rotate(Vector3.down, Input.GetAxis("Mouse Y"));
         Smoke.transform.Rotate(Vector3.left, Input.GetAxis("Mouse X") / 50.0f);
 
-        if (firesPutOut == 6 || LeavingBuilding.leftBuilding || timerCountdown <= 0.0)
+        if (timerCountdown <= 0.0 && !LeavingBuilding.leftBuilding && firesPutOut < 6)
         {
+            DoneText.GetComponent<Text>().text = "Failed";
             DoneText.SetActive(true);
-            var doneText = DoneText.GetComponent<Text>();
-            doneText.text = "Done!!!";
 
-            firesPutOut = 0;
-            StartCoroutine(Transition());
+            StartCoroutine(Transition(6));
+        }
+        else if (firesPutOut == 6 || LeavingBuilding.leftBuilding)
+        {
+            DoneText.GetComponent<Text>().text = "Success";
+            DoneText.SetActive(true);
 
+            StartCoroutine(Transition(7));
         }
     }
 
-    IEnumerator Transition()
+    IEnumerator Transition(int scene)
     {
         yield return new WaitForSeconds(3.0f);
-        SceneManager.LoadScene(0);
-        Debug.Log("DONE!!!!!!!!!!!!!!");
+
+        SceneManager.LoadScene(scene);
     }
 }

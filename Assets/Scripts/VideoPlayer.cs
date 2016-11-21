@@ -11,7 +11,7 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
     public bool PlayOnLoad;
 
     private AudioSource audioSource;
-    
+
     void Start()
     {
         var rawImage = GetComponent<RawImage>();
@@ -27,7 +27,7 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
                 audioSource.Play();
                 movTexture.Play();
             }
-           
+
             StartCoroutine(WaitForMovie(movTexture));
         }
         else
@@ -56,6 +56,5 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
             audioSource.Pause();
             movTexture.Pause();
         }
-       
     }
 }
