@@ -24,8 +24,6 @@ public class ClickOnHazard : MonoBehaviour
     {
         scene = SceneManager.GetActiveScene();
 
-        Debug.Log("active scene: " + scene.ToString());
-
         hDescriptions.Add("computer", "Computers");
         hDescriptions.Add("phone", "Telephones");
         hDescriptions.Add("monitor", "Monitors");
@@ -80,45 +78,34 @@ public class ClickOnHazard : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 hitObject = hit.collider.name.ToLower();
-                System.Console.WriteLine(hitObject);
-                //Debug.Log(hitObject);
-                if (scene != null)
+
+                if (hazardItems.Contains(hitObject) && scene.name == "Hazards")
                 {
-                    if ((scene.name == "Hazards") || (scene.name == "Safety"))
+                    if (collectedHazardItems.Contains(hitObject))
                     {
-                        if (hazardItems.Contains(hitObject))
-                        {
-                            if (collectedHazardItems.Contains(hitObject))
-                            {
-                                collectedItems.Remove(hitObject);
-                                collectedHazardItems.Remove(hitObject);
-                            }
-                            else
-                            {
-                                collectedItems.Add(hitObject);
-                                collectedHazardItems.Add(hitObject);
-                            }
-                            identified = collectedItems;
-                        }
-                        else if (safetyItems.Contains(hitObject))
-                        {
-                            if (collectedSafetyItems.Contains(hitObject))
-                            {
-                                collectedItems.Remove(hitObject);
-                                collectedSafetyItems.Remove(hitObject);
-                            }
-                            else
-                            {
-                                collectedItems.Add(hitObject);
-                                collectedSafetyItems.Add(hitObject);
-                            }
-                            identified = collectedItems;
-                        }
+                        collectedItems.Remove(hitObject);
+                        collectedHazardItems.Remove(hitObject);
                     }
+                    else
+                    {
+                        collectedItems.Add(hitObject);
+                        collectedHazardItems.Add(hitObject);
+                    }
+                    identified = collectedItems;
                 }
-                else
-                {
-                    identified.Add("scene is null");
+                else if (safetyItems.Contains(hitObject) && scene.name == "Safety")
+                { 
+                    if (collectedSafetyItems.Contains(hitObject))
+                    {
+                        collectedItems.Remove(hitObject);
+                        collectedSafetyItems.Remove(hitObject);
+                    }
+                    else
+                    {
+                        collectedItems.Add(hitObject);
+                        collectedSafetyItems.Add(hitObject);
+                    }
+                    identified = collectedItems;
                 }
             }
         }
