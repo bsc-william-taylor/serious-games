@@ -51,7 +51,7 @@ public class ScoreManager : MonoBehaviour
     {
         timer -= Time.deltaTime;
         timer = Math.Max(0.0f, timer);
-        timerText.text = "Time Left: " + timer;
+        timerText.text = "Time Left: " + (int)timer;
 
         if (activeScene.name == "Hazards" && timer <= 0.0f)
         {
