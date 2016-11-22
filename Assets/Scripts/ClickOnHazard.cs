@@ -5,21 +5,18 @@ using System.Collections.Generic;
 public class ClickOnHazard : MonoBehaviour
 {
     public HashSet<string> identified = new HashSet<string>();
-    private string hitObject = "";
-    Scene scene;
-
-    public Dictionary<string, string> descriptions = new Dictionary<string, string>();
-    Dictionary<string, string> hDescriptions = new Dictionary<string, string>();
-    Dictionary<string, string> sDescriptions = new Dictionary<string, string>();
-
-    HashSet<string> safetyItems = new HashSet<string>();
-    HashSet<string> hazardItems = new HashSet<string>();
-
     public HashSet<string> collectedItems = new HashSet<string>();
     public HashSet<string> collectedHazardItems = new HashSet<string>();
     public HashSet<string> collectedSafetyItems = new HashSet<string>();
+    public Dictionary<string, string> descriptions = new Dictionary<string, string>();
+    
+    private Dictionary<string, string> hDescriptions = new Dictionary<string, string>();
+    private Dictionary<string, string> sDescriptions = new Dictionary<string, string>();
+    private HashSet<string> safetyItems = new HashSet<string>();
+    private HashSet<string> hazardItems = new HashSet<string>();
+    private string hitObject = "";
+    private Scene scene;
 
-    // Use this for initialization
     void Start()
     {
         scene = SceneManager.GetActiveScene();
@@ -33,7 +30,7 @@ public class ClickOnHazard : MonoBehaviour
         hDescriptions.Add("coffee_machine", "Coffee machines");
         hDescriptions.Add("printer", "Printers");
         hDescriptions.Add("front_heater", "Radiators");
-        hDescriptions.Add("fuel_can", "Fuel canisters");
+        hDescriptions.Add("fuel_can", "Fuel Canisters");
 
         hazardItems = new HashSet<string>(hDescriptions.Keys);
 
@@ -52,7 +49,7 @@ public class ClickOnHazard : MonoBehaviour
         sDescriptions.Add("fire_procedures_sign", "Fire action signs");
         sDescriptions.Add("emergency_door_release_trigger", "Emergency door release triggers");
         sDescriptions.Add("fire_alarm_trigger", "Fire alarm triggers");
-        sDescriptions.Add("aid_box", "First aid cabinets");
+        sDescriptions.Add("aid_box", "First Aid Cabinets");
 
         safetyItems = new HashSet<string>(sDescriptions.Keys);
 
@@ -65,10 +62,8 @@ public class ClickOnHazard : MonoBehaviour
         {
             descriptions.Add(entry.Key, entry.Value);
         }
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -91,6 +86,7 @@ public class ClickOnHazard : MonoBehaviour
                         collectedItems.Add(hitObject);
                         collectedHazardItems.Add(hitObject);
                     }
+
                     identified = collectedItems;
                 }
                 else if (safetyItems.Contains(hitObject) && scene.name == "Safety")
@@ -105,6 +101,7 @@ public class ClickOnHazard : MonoBehaviour
                         collectedItems.Add(hitObject);
                         collectedSafetyItems.Add(hitObject);
                     }
+
                     identified = collectedItems;
                 }
             }

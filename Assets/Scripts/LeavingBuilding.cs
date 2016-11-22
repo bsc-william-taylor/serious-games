@@ -5,7 +5,6 @@ public class LeavingBuilding : MonoBehaviour
 {
     public static bool leftBuilding;
 
-    // Use this for initialization
     void Start()
     {
         leftBuilding = false;

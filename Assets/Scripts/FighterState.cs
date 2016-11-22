@@ -5,18 +5,20 @@ using UnityEngine.UI;
 
 public class FighterState : MonoBehaviour
 {
-    public enum EquipableFireExtinguishers 
+    public enum EquipableFireExtinguishers
     {
         None, CO2, Foam, Powder, Water
     }
 
     public GameObject EquippedText;
     public GameObject TimeText;
+    public GameObject HintText;
     public GameObject DoneText;
     public GameObject Smoke;
 
     private EquipableFireExtinguishers equippedExtinguisher = EquipableFireExtinguishers.None;
     private float timerCountdown = 0.0f;
+    private bool timerStarted = false;
     private int firesPutOut = 0;
 
     public bool ExstinguisherActive()
@@ -34,14 +36,24 @@ public class FighterState : MonoBehaviour
         equippedExtinguisher = extinguishers;
 
         var text = EquippedText.GetComponent<Text>();
-        text.text = "Equipped Exstinguister: " + extinguishers;
+        text.text = "Equipped Extinguisher: " + extinguishers;
     }
 
     void Start()
     {
         timerCountdown = 120.0f;
         DoneText.SetActive(false);
+        HintText.SetActive(true);
         Smoke.SetActive(false);
+
+        StartCoroutine(HideHintText());
+    }
+
+    IEnumerator HideHintText()
+    {
+        yield return new WaitForSeconds(5.0f);
+        HintText.SetActive(false);
+        timerStarted = true;
     }
 
     public void FirePutOut()
@@ -51,8 +63,11 @@ public class FighterState : MonoBehaviour
 
     void Update()
     {
-        timerCountdown -= Time.deltaTime;
-        timerCountdown = Mathf.Max(0.0f, timerCountdown);
+        if (timerStarted)
+        {
+            timerCountdown -= Time.deltaTime;
+            timerCountdown = Mathf.Max(0.0f, timerCountdown);
+        }
 
         var text = TimeText.GetComponent<Text>();
         text.text = "Time Left: " + (int)timerCountdown;
@@ -67,14 +82,14 @@ public class FighterState : MonoBehaviour
 
         if (timerCountdown <= 0.0 && !LeavingBuilding.leftBuilding && firesPutOut < 6)
         {
-            DoneText.GetComponent<Text>().text = "Failed";
+            DoneText.GetComponent<Text>().text = "Scenario Failed";
             DoneText.SetActive(true);
 
             StartCoroutine(Transition(6));
         }
         else if (firesPutOut == 6 || LeavingBuilding.leftBuilding)
         {
-            DoneText.GetComponent<Text>().text = "Success";
+            DoneText.GetComponent<Text>().text = "Scenario Passed";
             DoneText.SetActive(true);
 
             StartCoroutine(Transition(7));

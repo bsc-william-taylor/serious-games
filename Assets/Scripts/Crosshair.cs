@@ -2,15 +2,11 @@
 
 public class Crosshair : MonoBehaviour
 {
+    public float size = 5.0f;
 
-    const float DEFAULT_SIZE = 5.0f;
+    private Texture crosshairTexture;
+    private Rect crosshairSurface;
 
-    // crosshair's percentage compared to the screen width
-    public float size = DEFAULT_SIZE;
-    Rect crosshairSurface;
-    Texture crosshairTexture;
-
-    // Use this for initialization
     void Start()
     {
         crosshairTexture = Resources.Load("Textures/crosshair") as Texture;
