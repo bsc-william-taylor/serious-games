@@ -108,7 +108,9 @@ public class ClickOnHazard : MonoBehaviour
                     identified = collectedItems;
                 }
             }
-        } else {
+        }
+        else
+        {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit))
@@ -116,11 +118,11 @@ public class ClickOnHazard : MonoBehaviour
                 string item = hit.collider.name.ToLower();
                 if ((hazardItems.Contains(item)) && (scene.name == "Hazards"))
                 {
-                    lookingAt = item;
+                    lookingAt = descriptions[item];
                 }
                 else if ((safetyItems.Contains(item)) && (scene.name == "Safety"))
                 {
-                    lookingAt = item;
+                    lookingAt = descriptions[item];
                 }
             }
         }
