@@ -15,6 +15,7 @@ public class ClickOnHazard : MonoBehaviour
     private HashSet<string> safetyItems = new HashSet<string>();
     private HashSet<string> hazardItems = new HashSet<string>();
     private string hitObject = "";
+    public string lookingAt = "";
     private Scene scene;
 
     void Start()
@@ -66,6 +67,8 @@ public class ClickOnHazard : MonoBehaviour
 
     void Update()
     {
+        lookingAt = "";
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -103,6 +106,21 @@ public class ClickOnHazard : MonoBehaviour
                     }
 
                     identified = collectedItems;
+                }
+            }
+        } else {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit))
+            {
+                string item = hit.collider.name.ToLower();
+                if ((hazardItems.Contains(item)) && (scene.name == "Hazards"))
+                {
+                    lookingAt = item;
+                }
+                else if ((safetyItems.Contains(item)) && (scene.name == "Safety"))
+                {
+                    lookingAt = item;
                 }
             }
         }
