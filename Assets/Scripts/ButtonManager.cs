@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
@@ -35,20 +36,29 @@ public class ButtonManager : MonoBehaviour
         GUI.GetComponent<GuiManager>().OnLogin();
     }
 
+
+    private string GetInput(string gameObjectName)
+    {
+        var go = GameObject.Find(gameObjectName);
+        var input = go.GetComponent<InputField>();
+        return input.text;
+    }
+
     public void OnLoginGuest()
     {
-        GUI.GetComponent<GuiManager>().OnLoginGuest();
+        var guestName = GetInput("NameInput");
+        var guestAge = Convert.ToInt32(GetInput("AgeInput"));
+        var gender = GetInput("GenderInput");
+
+        GUI.GetComponent<GuiManager>().OnLoginGuest(guestName, guestAge, gender);
     }
 
     public void OnLoginStudent()
     {
-        var usernameObject = GameObject.Find("UsernameInput");
-        var usernameInput = usernameObject.GetComponent<InputField>();
+        var username = GetInput("UsernameInput");
+        var password = GetInput("PasswordInput");
 
-        var passwordObject = GameObject.Find("PasswordInput");
-        var passwordInput = passwordObject.GetComponent<InputField>();
-
-        GUI.GetComponent<GuiManager>().OnLoginStudent(usernameInput.text, passwordInput.text);
+        GUI.GetComponent<GuiManager>().OnLoginStudent(username, password);
     }
 
     public void OnQuit()

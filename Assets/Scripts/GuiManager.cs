@@ -19,23 +19,47 @@ public class GuiManager : MonoBehaviour
     {
         if (Leaderboard != null && Login != null)
         {
-            var fontSize = 30;
-            var y = 175;
-
-            for (var i = 0; i < 10; i++, y -= 55)
-            {
-                NewTextElement(i, "Random Player  " + i, y, fontSize);
-            }
-
             Leaderboard.SetActive(false);
             Login.SetActive(false);
+
+            StartCoroutine(WebService.Get("/leaderboard", (json, err) =>
+            {
+                var names = json["modules_passed"].AsArray;
+                var y = 175;
+
+                for (var i = 0; i < Math.Min(10, names.Count); i++, y -= 55)
+                {  
+                    NewTextElement(i, names[i]["name"], y, 30);
+                }
+            }));
         }
     }
 
     public void OnPlay()
     {
         if (show) return;
-        SceneManager.LoadScene(1);
+
+        if (WebService.LoggedIn)
+        {
+            var guest = new JSONClass
+            {
+                {"age", new JSONData(WebService.GuestData.age)},
+                {"gender", WebService.GuestData.gender},
+                {"name", WebService.GuestData.name}
+            };
+
+            StartCoroutine(WebService.Post("/start-gameplay", new JSONClass{ { "guest", guest }}, (json, err) =>
+            {
+                WebService.GameplayID = json["idGameplay"].AsInt;
+                WebService.PlayerID = json["idPlayer"].AsInt;
+
+                SceneManager.LoadScene(1);
+            }));
+        }
+        else
+        {
+            ShowMessageBox("Error you must login before playing");
+        }
     }
 
     public void OnCloseLogin()
@@ -62,7 +86,6 @@ public class GuiManager : MonoBehaviour
         Leaderboard.SetActive(true);
         foreach (var go in scores)
         {
-            // TODO: Set text to name
             go.SetActive(true);
         }
     }
@@ -71,7 +94,6 @@ public class GuiManager : MonoBehaviour
     {
         var textObject = new GameObject("score" + uniqueID);
         textObject.SetActive(false);
-
 
         var text = textObject.AddComponent<Text>();
         text.text = contents;
@@ -148,7 +170,7 @@ public class GuiManager : MonoBehaviour
         message = msg;
     }
 
-    public void OnLoginGuest()
+    public void OnLoginGuest(string name, int age, string gender)
     {
         if (show) return;
 
@@ -156,6 +178,13 @@ public class GuiManager : MonoBehaviour
         {
             if (string.IsNullOrEmpty(error) && data["version"] != null)
             {
+                Login.SetActive(false);
+
+                WebService.GuestData.gender = gender;
+                WebService.GuestData.name = name;
+                WebService.GuestData.age = age;
+                WebService.LoggedIn = true;
+
                 ShowMessageBox("Guest logged in");
             }
             else
@@ -173,13 +202,12 @@ public class GuiManager : MonoBehaviour
         loginData["username"] = username;
         loginData["password"] = password;
 
-        Debug.Log("Username:" + username);
-        Debug.Log("Password:" + password);
-
         StartCoroutine(WebService.Post("/login-student", loginData, (data, error) =>
         {
             if (string.IsNullOrEmpty(error) && data["loginSuccess"].AsBool)
             {
+                Login.SetActive(false);
+
                 ShowMessageBox("Student logged in");
             }
             else

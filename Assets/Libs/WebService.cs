@@ -6,13 +6,33 @@ using SimpleJSON;
 
 public class WebService : MonoBehaviour
 {
+    public struct GuestInfo
+    {
+        public string gender;
+        public string name;
+        public int age;
+    };
+
     private const string Server = "http://localhost:8080";
+
+    public static int LastScene = -1;
+    public static int GameplayID = -1;
+    public static int PlayerID = -1;
+
+    public static bool LoggedIn = false;
+    public static GuestInfo GuestData;
 
     public static IEnumerator<WWW> Get(string url, Action<JSONNode, string> action)
     {
         var www = new WWW(Server + url);
         yield return www;
         action(JSON.Parse(www.text), www.error);
+    }
+
+    public static void ResetState()
+    {
+        GameplayID = -1;
+        PlayerID = -1;
     }
 
     public static IEnumerator<WWW> Post(string url, JSONClass json, Action<JSONNode, string> action)

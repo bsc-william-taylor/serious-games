@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Openable : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class Openable : MonoBehaviour
     private Vector3 closePosition;
     private Vector3 closeRotation;
     private bool isOpen = false;
+
+    void Start()
+    {
+        WebService.LastScene = SceneManager.GetActiveScene().buildIndex;
+    }
 
     void Update()
     {
