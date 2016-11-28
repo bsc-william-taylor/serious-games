@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour
 {
     public string ScoreName;
-
+ 
     private ClickOnHazard clickOnHazard;
     private Text text;
 

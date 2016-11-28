@@ -58,6 +58,7 @@ public class FighterState : MonoBehaviour
 
     public void FirePutOut()
     {
+        WebService.PostAction(this, "fires");
         ++firesPutOut;
     }
 

@@ -6,6 +6,8 @@ public class Keyboard : MonoBehaviour
     {
         if (Input.GetKeyDown("escape"))
         {
+            WebService.EndGameplay(this, "/fail-gameplay");
+
             Application.Quit();
         }
     }

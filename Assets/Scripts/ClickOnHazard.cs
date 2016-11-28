@@ -14,6 +14,7 @@ public class ClickOnHazard : MonoBehaviour
     private Dictionary<string, string> sDescriptions = new Dictionary<string, string>();
     private HashSet<string> safetyItems = new HashSet<string>();
     private HashSet<string> hazardItems = new HashSet<string>();
+
     private string hitObject = "";
     public string lookingAt = "";
     private Scene scene;
@@ -88,6 +89,8 @@ public class ClickOnHazard : MonoBehaviour
                     {
                         collectedItems.Add(hitObject);
                         collectedHazardItems.Add(hitObject);
+
+                        WebService.PostAction(this, "hazards");
                     }
 
                     identified = collectedItems;
@@ -103,6 +106,8 @@ public class ClickOnHazard : MonoBehaviour
                     {
                         collectedItems.Add(hitObject);
                         collectedSafetyItems.Add(hitObject);
+
+                        WebService.PostAction(this, "safety");
                     }
 
                     identified = collectedItems;

@@ -24,12 +24,21 @@ public class GuiManager : MonoBehaviour
 
             StartCoroutine(WebService.Get("/leaderboard", (json, err) =>
             {
-                var names = json["modules_passed"].AsArray;
-                var y = 175;
+                var names = json["fires_put_out"].AsArray;
 
-                for (var i = 0; i < Math.Min(10, names.Count); i++, y -= 55)
-                {  
-                    NewTextElement(i, names[i]["name"], y, 30);
+                if (names != null)
+                {
+                    var y = 175;
+
+                    for (var i = 0; i < Math.Min(10, names.Count); i++, y -= 55)
+                    {
+                        var firesPutOut = names[i]["score"].AsInt;
+
+                        if (firesPutOut >= 6)
+                        {
+                            NewTextElement(i, names[i]["name"], y, 30);
+                        }
+                    }
                 }
             }));
         }
@@ -48,13 +57,7 @@ public class GuiManager : MonoBehaviour
                 {"name", WebService.GuestData.name}
             };
 
-            StartCoroutine(WebService.Post("/start-gameplay", new JSONClass{ { "guest", guest }}, (json, err) =>
-            {
-                WebService.GameplayID = json["idGameplay"].AsInt;
-                WebService.PlayerID = json["idPlayer"].AsInt;
-
-                SceneManager.LoadScene(1);
-            }));
+            WebService.StartGameplay(this, guest, null, () => SceneManager.LoadScene(1));
         }
         else
         {

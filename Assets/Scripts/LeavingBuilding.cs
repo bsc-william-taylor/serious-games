@@ -3,11 +3,13 @@ using System.Collections;
 
 public class LeavingBuilding : MonoBehaviour
 {
-    public static bool leftBuilding;
+    public static bool leftBuilding = false;
+    public static bool postedAction = false;
 
     void Start()
     {
         leftBuilding = false;
+        postedAction = false;
     }
 
     void OnCollisionEnter(Collision col)
@@ -16,6 +18,11 @@ public class LeavingBuilding : MonoBehaviour
         {
             Debug.Log("Left the building!");
             leftBuilding = true;
+        }
+
+        if (!postedAction && leftBuilding)
+        {
+            WebService.PostAction(this, "evac");
         }
     }
 }

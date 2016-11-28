@@ -16,12 +16,8 @@ public class Finished : MonoBehaviour
             PresentVideo();
         }
 
-        var body = new JSONClass();
-        body["gameplayID"] = new JSONData(WebService.GameplayID);
-        StartCoroutine(WebService.Post(Url, body, (json, err) =>
-        {
-            WebService.ResetState();
-        }));
+
+        WebService.EndGameplay(this, Url);
     }
 
     void PresentVideo()

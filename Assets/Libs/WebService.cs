@@ -47,4 +47,50 @@ public class WebService : MonoBehaviour
         yield return request;
         action(JSON.Parse(request.text), request.error);
     }
+
+    public static void StartGameplay(MonoBehaviour mono, JSONClass guest, JSONClass student, Action onStart)
+    {
+        var body = new JSONClass();
+
+        if (student != null)
+        {
+            body["student"] = student;
+        }
+        else
+        {
+            body["guest"] = guest;
+        }
+  
+        mono.StartCoroutine(Post("/start-gameplay", body, (json, err) =>
+        {
+            GameplayID = json["idGameplay"].AsInt;
+            PlayerID = json["idPlayer"].AsInt;
+
+            onStart();
+        }));
+    }
+
+    public static void PostAction(MonoBehaviour mono, string type)
+    {
+        if (GameplayID != -1 && PlayerID != -1)
+        {
+            var body = new JSONClass
+            {
+                {"gameplayID", new JSONData(GameplayID)},
+                {"type", type}
+            };
+
+            mono.StartCoroutine(Post("/action-gameplay", body, (a, b) => { Debug.Log("Posted Action");}));
+        }
+    }
+
+    public static void EndGameplay(MonoBehaviour mono, string url)
+    {
+        if (GameplayID != -1 && PlayerID != -1)
+        {
+            var body = new JSONClass();
+            body["gameplayID"] = new JSONData(GameplayID);
+            mono.StartCoroutine(Post(url, body, (json, err) => ResetState()));
+        }
+    }
 }
