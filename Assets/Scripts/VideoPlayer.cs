@@ -37,7 +37,10 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
 
     public void Play()
     {
+        audioSource.Stop();
         audioSource.Play();
+
+        movTexture.Stop();
         movTexture.Play();
 
         StartCoroutine(WaitForMovie(movTexture));
