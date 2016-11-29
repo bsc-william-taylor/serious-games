@@ -11,13 +11,18 @@ public class GuiManager : MonoBehaviour
     private List<GameObject> scores = new List<GameObject>();
     private string popupMessage = string.Empty;
     private bool showingPopup = false;
+    private bool loginTeacher = false;
 
+    public GameObject TeacherLogin;
+    public GameObject GuestLogin;
     public GameObject IntroVideo;
     public GameObject Leaderboard;
     public GameObject Login;
 
     void Start()
     {
+        ToggleLoginType();
+
         if (Leaderboard != null && Login != null)
         { 
             IntroVideo.SetActive(false);
@@ -56,6 +61,22 @@ public class GuiManager : MonoBehaviour
         video.OnFinished = () => SceneManager.LoadScene(1);
         video.TryLoad();
         video.Play();
+    }
+
+    public void ToggleLoginType()
+    {
+        loginTeacher = !loginTeacher;
+
+        if (loginTeacher)
+        {
+            TeacherLogin.SetActive(true);
+            GuestLogin.SetActive(false);
+        }
+        else
+        {
+            TeacherLogin.SetActive(false);
+            GuestLogin.SetActive(true);
+        }
     }
 
     public void OnPlay()
