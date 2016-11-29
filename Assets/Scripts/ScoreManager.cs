@@ -57,7 +57,7 @@ public class ScoreManager : MonoBehaviour
         {
             if (clickOnHazard.collectedHazardItems.Count >= 7)
             {
-                NextScene("Safety", "Scenario Passed");
+                NextScene("Runner", "Scenario Passed");
             }
             else
             {
@@ -68,7 +68,7 @@ public class ScoreManager : MonoBehaviour
         {
             if (clickOnHazard.collectedSafetyItems.Count >= 10)
             {
-                NextScene("Runner", "Scenario Passed");
+                NextScene("Hazards", "Scenario Passed");
             }
             else
             {

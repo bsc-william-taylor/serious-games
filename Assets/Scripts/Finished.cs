@@ -4,6 +4,7 @@ using SimpleJSON;
 
 public class Finished : MonoBehaviour
 {
+    public GameObject RetryButton;
     public List<MovieTexture> videos;
     public List<AudioClip> audio;
 
@@ -12,11 +13,13 @@ public class Finished : MonoBehaviour
 
     void Start()
     {
+
         if (string.IsNullOrEmpty(Url))
             return;
 
         if (FailedScene)
         {
+            RetryButton.SetActive(false);
             PresentVideo();
         }
 
@@ -35,6 +38,7 @@ public class Finished : MonoBehaviour
 
             source.clip = audio[lastSceneIndex];
 
+            player.OnFinished = () => RetryButton.SetActive(true);
             player.PlayOnLoad = true;
             player.movTexture = videos[lastSceneIndex];
             player.TryLoad();

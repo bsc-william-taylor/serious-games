@@ -8,6 +8,7 @@ using System;
 public class VideoPlayer : MonoBehaviour, IPointerClickHandler
 {
     public MovieTexture movTexture;
+    public Action OnFinished;
     public bool PlayOnLoad;
 
     private AudioSource audioSource;
@@ -43,6 +44,11 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
 
         audioSource.Stop();
         movTexture.Stop();
+
+        if (OnFinished != null)
+        {
+            OnFinished();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
