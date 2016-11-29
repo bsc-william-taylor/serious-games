@@ -16,7 +16,6 @@ public class LeavingBuilding : MonoBehaviour
     {
         if (col.gameObject.name == "Character")
         {
-            Debug.Log("Left the building!");
             leftBuilding = true;
         }
 
