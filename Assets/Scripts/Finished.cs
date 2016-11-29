@@ -38,8 +38,8 @@ public class Finished : MonoBehaviour
 
             source.clip = audio[lastSceneIndex];
 
-            player.OnFinished = () => RetryButton.SetActive(true);
             player.PlayOnLoad = true;
+            player.OnFinished = () => RetryButton.SetActive(true);
             player.movTexture = videos[lastSceneIndex];
             player.TryLoad();
         }

@@ -30,12 +30,17 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
 
             if (PlayOnLoad)
             {
-                audioSource.Play();
-                movTexture.Play();
+                Play();
             }
-
-            StartCoroutine(WaitForMovie(movTexture));
         }
+    }
+
+    public void Play()
+    {
+        audioSource.Play();
+        movTexture.Play();
+
+        StartCoroutine(WaitForMovie(movTexture));
     }
 
     IEnumerator WaitForMovie(MovieTexture texture)

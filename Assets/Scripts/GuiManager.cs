@@ -12,13 +12,15 @@ public class GuiManager : MonoBehaviour
     private string popupMessage = string.Empty;
     private bool showingPopup = false;
 
+    public GameObject IntroVideo;
     public GameObject Leaderboard;
     public GameObject Login;
 
     void Start()
     {
         if (Leaderboard != null && Login != null)
-        {
+        { 
+            IntroVideo.SetActive(false);
             Leaderboard.SetActive(false);
             Login.SetActive(false);
 
@@ -46,6 +48,16 @@ public class GuiManager : MonoBehaviour
         }
     }
 
+    private void StartGame()
+    {
+        IntroVideo.SetActive(true);
+
+        var video = IntroVideo.GetComponent<VideoPlayer>();
+        video.OnFinished = () => SceneManager.LoadScene(1);
+        video.TryLoad();
+        video.Play();
+    }
+
     public void OnPlay()
     {
         if (showingPopup) return;
@@ -59,7 +71,7 @@ public class GuiManager : MonoBehaviour
                 {"name", WebService.GuestData.name}
             };
 
-            WebService.StartGameplay(this, guest, null, () => SceneManager.LoadScene(1));
+            WebService.StartGameplay(this, guest, null, StartGame);
         }
         else if (WebService.PlayerLoggedIn)
         {
@@ -68,7 +80,7 @@ public class GuiManager : MonoBehaviour
                 {"idPlayer", new JSONData(WebService.GuestData.age)}
             };
 
-            WebService.StartGameplay(this, null, player, () => SceneManager.LoadScene(1));
+            WebService.StartGameplay(this, null, player, StartGame);
         }
         else
         {
