@@ -55,12 +55,10 @@ public class GuiManager : MonoBehaviour
 
     private void StartGame()
     {
-        IntroVideo.SetActive(true);
-
         var video = IntroVideo.GetComponent<VideoPlayer>();
         video.OnFinished = () => SceneManager.LoadScene(1);
-        video.TryLoad();
-        video.Play();
+  
+        IntroVideo.SetActive(true);
     }
 
     public void ToggleLoginType()

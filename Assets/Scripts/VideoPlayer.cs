@@ -7,9 +7,9 @@ using System;
 [RequireComponent(typeof(AudioSource))]
 public class VideoPlayer : MonoBehaviour, IPointerClickHandler
 {
+    public bool PlayOnLoad = false;
     public MovieTexture movTexture;
     public Action OnFinished;
-    public bool PlayOnLoad;
 
     private AudioSource audioSource;
 
@@ -25,6 +25,8 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
 
         if (rawImage != null && audioSource != null && movTexture != null)
         {
+            movTexture.Stop();
+
             rawImage.texture = movTexture;
             audioSource.clip = movTexture.audioClip;
 
@@ -33,24 +35,27 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
                 Play();
             }
         }
+        else
+        {
+            Debug.Log("Sources for video player are null");
+        }
     }
 
     public void Play()
     {
-        audioSource.Stop();
-        audioSource.Play();
+        if (audioSource != null && movTexture != null)
+        {
+            audioSource.Play();
+            movTexture.Play();
 
-        movTexture.Stop();
-        movTexture.Play();
-
-        StartCoroutine(WaitForMovie(movTexture));
+            StartCoroutine(WaitForMovie(movTexture));
+        }
     }
 
     IEnumerator WaitForMovie(MovieTexture texture)
     {
         yield return new WaitForSeconds(texture.duration);
 
-        audioSource.Stop();
         movTexture.Stop();
 
         if (OnFinished != null)
@@ -60,6 +65,11 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData)
+    {
+        Stop();
+    }
+
+    public void Stop()
     {
         if (!movTexture.isPlaying)
         {
