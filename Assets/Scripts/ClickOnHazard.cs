@@ -9,12 +9,13 @@ public class ClickOnHazard : MonoBehaviour
     public HashSet<string> collectedHazardItems = new HashSet<string>();
     public HashSet<string> collectedSafetyItems = new HashSet<string>();
     public Dictionary<string, string> descriptions = new Dictionary<string, string>();
-    
+
     private Dictionary<string, string> hDescriptions = new Dictionary<string, string>();
     private Dictionary<string, string> sDescriptions = new Dictionary<string, string>();
+    private Dictionary<string, string> nDescriptions = new Dictionary<string, string>();
     private HashSet<string> safetyItems = new HashSet<string>();
     private HashSet<string> hazardItems = new HashSet<string>();
-
+    private HashSet<string> normalItems = new HashSet<string>();
     private string hitObject = "";
     public string lookingAt = "";
     private Scene scene;
@@ -55,12 +56,32 @@ public class ClickOnHazard : MonoBehaviour
 
         safetyItems = new HashSet<string>(sDescriptions.Keys);
 
+        nDescriptions.Add("lift", "Lift");
+        nDescriptions.Add("floor", "Floor");
+        nDescriptions.Add("wall", "Wall");
+        nDescriptions.Add("window", "Window");
+        nDescriptions.Add("ceiling", "Ceiling");
+        nDescriptions.Add("sideboard", "Side Board");
+        nDescriptions.Add("sink", "Sink");
+        nDescriptions.Add("door_opener", "Door Opener");
+        nDescriptions.Add("fire_alarm_cable", "Fire Alarm Cable");
+        nDescriptions.Add("mesh16", "Mouse");
+        nDescriptions.Add("mesh14", "Mouse");
+        nDescriptions.Add("desk", "Desk");
+
+        normalItems = new HashSet<string>(nDescriptions.Keys);
+
         foreach (var entry in hDescriptions)
         {
             descriptions.Add(entry.Key, entry.Value);
         }
 
         foreach (var entry in sDescriptions)
+        {
+            descriptions.Add(entry.Key, entry.Value);
+        }
+        
+        foreach (var entry in nDescriptions)
         {
             descriptions.Add(entry.Key, entry.Value);
         }
@@ -118,16 +139,14 @@ public class ClickOnHazard : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if(Physics.Raycast(ray, out hit))
-            {
+            if(Physics.Raycast(ray, out hit)) {
                 string item = hit.collider.name.ToLower();
-                if ((hazardItems.Contains(item)) && (scene.name == "Hazards"))
+                if((scene.name == "Hazards") || (scene.name == "Safety"))
                 {
-                    lookingAt = descriptions[item];
-                }
-                else if ((safetyItems.Contains(item)) && (scene.name == "Safety"))
-                {
-                    lookingAt = descriptions[item];
+                    if((hazardItems.Contains(item)) || (safetyItems.Contains(item)) || (normalItems.Contains(item)))
+                    {
+                        lookingAt = descriptions[item];
+                    }
                 }
             }
         }

@@ -13,13 +13,14 @@ public class WebService : MonoBehaviour
         public int age;
     };
 
-    private const string Server = "http://localhost:8080";
+    private const string Server = "http://www.williamsamtaylor.co.uk:3007";
 
     public static int LastScene = -1;
     public static int GameplayID = -1;
     public static int PlayerID = -1;
 
-    public static bool LoggedIn = false;
+    public static bool GuestLoggedIn = false;
+    public static bool PlayerLoggedIn = false;
     public static GuestInfo GuestData;
 
     public static IEnumerator<WWW> Get(string url, Action<JSONNode, string> action)

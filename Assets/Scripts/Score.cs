@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour
 {
     public string ScoreName;
- 
+
     private ClickOnHazard clickOnHazard;
     private Text text;
 

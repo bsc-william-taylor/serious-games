@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Process = System.Diagnostics.Process;
 
-public class Certification : MonoBehaviour 
+public class Certification : MonoBehaviour
 {
     public void Open()
     {

@@ -14,10 +14,15 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
 
     void Start()
     {
+        TryLoad();
+    }
+
+    public void TryLoad()
+    {
         var rawImage = GetComponent<RawImage>();
         audioSource = GetComponent<AudioSource>();
 
-        if (rawImage != null && audioSource != null)
+        if (rawImage != null && audioSource != null && movTexture != null)
         {
             rawImage.texture = movTexture;
             audioSource.clip = movTexture.audioClip;
@@ -29,10 +34,6 @@ public class VideoPlayer : MonoBehaviour, IPointerClickHandler
             }
 
             StartCoroutine(WaitForMovie(movTexture));
-        }
-        else
-        {
-            Debug.LogError("RawImage is null || AudioSource is null");
         }
     }
 
