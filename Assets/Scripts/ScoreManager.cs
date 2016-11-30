@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour
     public GameObject HintText;
     public GameObject TimeText;
     private bool didPlayerRun;
+    private bool stopTimer;
 
     private ClickOnHazard clickOnHazard;
     private static float timer;
@@ -22,6 +23,7 @@ public class ScoreManager : MonoBehaviour
         activeScene = SceneManager.GetActiveScene();
         timerText = TimeText.GetComponent<Text>();
         didPlayerRun = false;
+        stopTimer = false;
 
         switch (activeScene.name)
         {
@@ -43,6 +45,7 @@ public class ScoreManager : MonoBehaviour
 
     void NextScene(string scene, string endtext)
     {
+        stopTimer = true;
         StartCoroutine(Wait(3, () => Application.LoadLevel(scene)));
 
         DoneText.GetComponent<Text>().text = endtext;
@@ -51,8 +54,11 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        timer -= Time.deltaTime;
-        timer = Math.Max(0.0f, timer);
+        if(stopTimer == false)
+        {
+            timer -= Time.deltaTime;
+            timer = Math.Max(0.0f, timer);
+        }
         timerText.text = "Time Left: " + (int)timer;
 
         if (activeScene.name == "Hazards" && timer <= 0.0f)
