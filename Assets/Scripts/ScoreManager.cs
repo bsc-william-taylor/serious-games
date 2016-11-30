@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     public GameObject DoneText;
     public GameObject HintText;
     public GameObject TimeText;
+    private bool didPlayerRun;
 
     private ClickOnHazard clickOnHazard;
     private static float timer;
@@ -20,6 +21,7 @@ public class ScoreManager : MonoBehaviour
         clickOnHazard = GameObject.Find("Floor_5").GetComponent<ClickOnHazard>();
         activeScene = SceneManager.GetActiveScene();
         timerText = TimeText.GetComponent<Text>();
+        didPlayerRun = false;
 
         switch (activeScene.name)
         {
@@ -77,13 +79,23 @@ public class ScoreManager : MonoBehaviour
         }
         else if (activeScene.name == "Runner")
         {
-            if (LeavingBuilding.leftBuilding)
+            if((Input.GetKeyDown(KeyCode.RightShift)) || (Input.GetKeyDown(KeyCode.LeftShift))) // TODO(Jonny): Shift not found?
             {
-                NextScene("Fighter", "Scenario Passed");
+                didPlayerRun = true;
             }
-            else if (timer <= 0.0f)
+
+            bool end = ((LeavingBuilding.leftBuilding) || (timer < 0.0f));
+
+            if(end)
             {
-                NextScene("Failed", "Scenario Failed");
+                if((LeavingBuilding.leftBuilding) && (didPlayerRun == false))
+                {
+                    NextScene("Fighter", "Scenario Passed");
+                }
+                else
+                {
+                    NextScene("Failed", "Scenario Failed");
+                }
             }
         }
     }
