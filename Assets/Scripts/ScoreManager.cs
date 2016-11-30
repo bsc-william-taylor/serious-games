@@ -28,7 +28,7 @@ public class ScoreManager : MonoBehaviour
         switch (activeScene.name)
         {
             case "Fighter": timer = 90.0f; break;
-            case "Hazards": timer = 30.0f; break;
+            case "Hazards": timer = 45.0f; break;
             case "Safety": timer = 60.0f; break;
             case "Runner": timer = 90.0f; break;
         }
