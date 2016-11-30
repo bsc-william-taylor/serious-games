@@ -68,6 +68,7 @@ public class ClickOnHazard : MonoBehaviour
         nDescriptions.Add("mesh16", "Mouse");
         nDescriptions.Add("mesh14", "Mouse");
         nDescriptions.Add("desk", "Desk");
+        nDescriptions.Add("keyboard", "Keyboard");
 
         normalItems = new HashSet<string>(nDescriptions.Keys);
 
