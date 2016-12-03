@@ -11,14 +11,18 @@ public class Extinguishable : MonoBehaviour
     public FighterState State;
     public GameObject Light;
 
-    private const float StartLifeTime = 5.0f;
+    
     private const float DecreaseStep = 4.0f;
     private const float IncreaseStep = 2.0f;
+    private float startLifeTime = 5.0f;
 
     private Light pointLight;
 
     void Start()
     {
+        var system = GetComponent<ParticleSystem>();
+        startLifeTime = system.startLifetime;
+
         pointLight = Light.GetComponent<Light>();
     }
 
@@ -45,7 +49,7 @@ public class Extinguishable : MonoBehaviour
             var system = GetComponent<ParticleSystem>();
 
             system.startLifetime += Time.deltaTime / DecreaseStep;
-            system.startLifetime = Math.Min(StartLifeTime, system.startLifetime);
+            system.startLifetime = Math.Min(startLifeTime, system.startLifetime);
         }
     }
 
