@@ -12,7 +12,7 @@ public class Keyboard : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown("escape") && scene.name == "Menu")
+        if (Input.GetKeyDown("escape") && scene.name == "Menu" && !IntroVideoPlaying())
         {
             WebService.EndGameplay(this, "/fail-gameplay");
 
@@ -23,5 +23,23 @@ public class Keyboard : MonoBehaviour
     public void OnApplicationQuit()
     {
         WebService.EndGameplay(this, "/fail-gameplay");
+    }
+
+    private bool IntroVideoPlaying()
+    {
+        var video = GameObject.Find("IntroVideo");
+        var playing = false;
+
+        if (video != null)
+        {
+            var player = video.GetComponent<VideoPlayer>();
+
+            if (player != null)
+            {
+                playing = player.movTexture.isPlaying;
+            }
+        }
+
+        return playing;
     }
 }
