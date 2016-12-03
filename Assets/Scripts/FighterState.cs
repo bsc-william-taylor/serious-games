@@ -12,7 +12,6 @@ public class FighterState : MonoBehaviour
 
     public GameObject EquippedText;
     public GameObject TimeText;
-    public GameObject HintText;
     public GameObject DoneText;
     public GameObject Smoke;
 
@@ -41,19 +40,11 @@ public class FighterState : MonoBehaviour
 
     void Start()
     {
-        timerCountdown = 120.0f;
-        DoneText.SetActive(false);
-        HintText.SetActive(true);
-        Smoke.SetActive(false);
-
-        StartCoroutine(HideHintText());
-    }
-
-    IEnumerator HideHintText()
-    {
-        yield return new WaitForSeconds(5.0f);
-        HintText.SetActive(false);
+        timerCountdown = 120.5f;
         timerStarted = true;
+
+        DoneText.SetActive(false);
+        Smoke.SetActive(false);
     }
 
     public void FirePutOut()

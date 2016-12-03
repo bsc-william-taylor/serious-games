@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
     public GameObject DoneText;
-    public GameObject HintText;
     public GameObject TimeText;
     private bool didPlayerRun;
     private bool stopTimer;
@@ -27,13 +26,12 @@ public class ScoreManager : MonoBehaviour
 
         switch (activeScene.name)
         {
-            case "Fighter": timer = 90.0f; break;
-            case "Hazards": timer = 45.0f; break;
-            case "Safety": timer = 60.0f; break;
-            case "Runner": timer = 90.0f; break;
+            case "Fighter": timer = 90.5f; break;
+            case "Hazards": timer = 45.5f; break;
+            case "Safety": timer = 60.5f; break;
+            case "Runner": timer = 90.5f; break;
         }
 
-        StartCoroutine(Wait(5, () => HintText.SetActive(false)));
         DoneText.SetActive(false);
     }
 

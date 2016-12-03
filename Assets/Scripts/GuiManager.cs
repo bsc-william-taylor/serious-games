@@ -45,7 +45,7 @@ public class GuiManager : MonoBehaviour
 
                         marshalName = marshalName.Substring(1, marshalName.Length - 2);
 
-                        if (firesPutOut >= 6 && !added.Contains(marshalName))
+                        if (firesPutOut >= 6 && !added.Contains(marshalName) && !string.IsNullOrEmpty(marshalName))
                         {
                             scores.Add(NewTextElement(i, marshalName, y, 30));
                             added.Add(marshalName);
