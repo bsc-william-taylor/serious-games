@@ -11,6 +11,10 @@ public class Extinguishable : MonoBehaviour
     public FighterState State;
     public GameObject Light;
 
+    private const float StartLifeTime = 5.0f;
+    private const float DecreaseStep = 4.0f;
+    private const float IncreaseStep = 2.0f;
+
     private Light pointLight;
 
     void Start()
@@ -36,6 +40,13 @@ public class Extinguishable : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            var system = GetComponent<ParticleSystem>();
+
+            system.startLifetime += Time.deltaTime / DecreaseStep;
+            system.startLifetime = Math.Min(StartLifeTime, system.startLifetime);
+        }
     }
 
     void TestExtinguisher(FireExtinguishers type)
@@ -46,8 +57,8 @@ public class Extinguishable : MonoBehaviour
 
             if (component != null)
             {
-                component.startLifetime -= Time.deltaTime;
-                pointLight.intensity -= Time.deltaTime;
+                component.startLifetime -= Time.deltaTime * IncreaseStep;
+                pointLight.intensity -= Time.deltaTime * IncreaseStep;
 
                 if (component.startLifetime <= 0.0f)
                 {

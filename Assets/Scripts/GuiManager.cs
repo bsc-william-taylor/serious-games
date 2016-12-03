@@ -11,7 +11,7 @@ public class GuiManager : MonoBehaviour
     private List<GameObject> scores = new List<GameObject>();
     private string popupMessage = string.Empty;
     private bool showingPopup = false;
-    private bool loginTeacher = false;
+    private bool loginTeacher = true;
 
     public GameObject TeacherLogin;
     public GameObject GuestLogin;
@@ -24,13 +24,14 @@ public class GuiManager : MonoBehaviour
         ToggleLoginType();
 
         if (Leaderboard != null && Login != null)
-        { 
-            IntroVideo.SetActive(false);
+        {
             Leaderboard.SetActive(false);
+            IntroVideo.SetActive(false);
             Login.SetActive(false);
 
             StartCoroutine(WebService.Get("/leaderboard", (json, err) =>
             {
+                var added = new List<string>();
                 var names = json["fires_put_out"].AsArray;
 
                 if (names != null)
@@ -40,12 +41,14 @@ public class GuiManager : MonoBehaviour
                     for (var i = 0; i < Math.Min(10, names.Count); i++, y -= 55)
                     {
                         var firesPutOut = names[i]["score"].AsInt;
+                        var marshalName = names[i]["name"].ToString();
 
-                        if (firesPutOut >= 6)
+                        marshalName = marshalName.Substring(1, marshalName.Length - 2);
+
+                        if (firesPutOut >= 6 && !added.Contains(marshalName))
                         {
-                            var jsonValue = names[i]["name"].ToString();
-                            jsonValue = jsonValue.Substring(1, jsonValue.Length - 2);
-                            NewTextElement(i, jsonValue.ToLower(), y, 30);
+                            scores.Add(NewTextElement(i, marshalName, y, 30));
+                            added.Add(marshalName);
                         }
                     }
                 }
@@ -65,16 +68,8 @@ public class GuiManager : MonoBehaviour
     {
         loginTeacher = !loginTeacher;
 
-        if (loginTeacher)
-        {
-            TeacherLogin.SetActive(true);
-            GuestLogin.SetActive(false);
-        }
-        else
-        {
-            TeacherLogin.SetActive(false);
-            GuestLogin.SetActive(true);
-        }
+        TeacherLogin.SetActive(loginTeacher);
+        GuestLogin.SetActive(!loginTeacher);
     }
 
     public void OnPlay()
@@ -135,7 +130,7 @@ public class GuiManager : MonoBehaviour
         }
     }
 
-    private void NewTextElement(int uniqueID, string contents, int y, int fontSize)
+    private GameObject NewTextElement(int uniqueID, string contents, int y, int fontSize)
     {
         var textObject = new GameObject("score" + uniqueID);
         textObject.SetActive(false);
@@ -156,7 +151,8 @@ public class GuiManager : MonoBehaviour
         rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 3.0f);
         rect.localPosition = new Vector3(0, y, 0);
         rect.sizeDelta = new Vector2(500, 100);
-        scores.Add(textObject);
+
+        return textObject;
     }
 
     public void OnCertification()
