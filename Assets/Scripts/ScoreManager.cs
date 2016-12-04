@@ -26,10 +26,10 @@ public class ScoreManager : MonoBehaviour
 
         switch (activeScene.name)
         {
-            case "Fighter": timer = 90.5f; break;
-            case "Hazards": timer = 45.5f; break;
-            case "Safety": timer = 60.5f; break;
-            case "Runner": timer = 90.5f; break;
+            case "Fighter": timer = 60.5f; break;
+            case "Hazards": timer = 45.0f; break;
+            case "Safety": timer = 45.0f; break;
+            case "Runner": timer = 60.0f; break;
         }
 
         DoneText.SetActive(false);
@@ -59,39 +59,46 @@ public class ScoreManager : MonoBehaviour
         }
         timerText.text = "Time Left: " + (int)timer;
 
-        if (activeScene.name == "Hazards" && timer <= 0.0f)
+        if (activeScene.name == "Hazards")
         {
-            if (clickOnHazard.collectedHazardItems.Count >= 7)
+            if (timer <= 0.0f || clickOnHazard.collectedHazardItems.Count == 10)
             {
-                NextScene("Runner", "Scenario Passed");
-            }
-            else
-            {
-                NextScene("Failed", "Scenario Failed");
+                stopTimer = true;
+                if (clickOnHazard.collectedHazardItems.Count >= 7)
+                {
+                    NextScene("Runner", "Scenario Passed");
+                }
+                else
+                {
+                    NextScene("Failed", "Scenario Failed");
+                }
             }
         }
-        else if (activeScene.name == "Safety" && timer <= 0.0f && clickOnHazard != null)
+        else if (activeScene.name == "Safety")
         {
-            if (clickOnHazard.collectedSafetyItems.Count >= 10)
+            if (timer <= 0.0f || clickOnHazard.collectedSafetyItems.Count == 16)
             {
-                NextScene("Hazards", "Scenario Passed");
-            }
-            else
-            {
-                NextScene("Failed", "Scenario Failed");
+                stopTimer = true;
+                if (clickOnHazard.collectedSafetyItems.Count >= 10)
+                {
+                    NextScene("Hazards", "Scenario Passed");
+                }
+                else
+                {
+                    NextScene("Failed", "Scenario Failed");
+                }
             }
         }
         else if (activeScene.name == "Runner")
         {
-            if((Input.GetKeyDown(KeyCode.RightShift)) || (Input.GetKeyDown(KeyCode.LeftShift))) // TODO(Jonny): Shift not found?
+            if(Input.GetKeyDown(KeyCode.LeftShift))
             {
                 didPlayerRun = true;
             }
 
-            bool end = ((LeavingBuilding.leftBuilding) || (timer < 0.0f));
-
-            if(end)
+            if(timer < 0.0f || LeavingBuilding.leftBuilding)
             {
+                stopTimer = true;
                 if((LeavingBuilding.leftBuilding) && (didPlayerRun == false))
                 {
                     NextScene("Fighter", "Scenario Passed");

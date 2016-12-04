@@ -64,9 +64,14 @@ public class FighterState : MonoBehaviour
         var text = TimeText.GetComponent<Text>();
         text.text = "Time Left: " + (int)timerCountdown;
 
-        if (Input.GetMouseButtonDown(1) && equippedExtinguisher != EquipableFireExtinguishers.None)
+        if (Input.GetMouseButtonDown(0) && equippedExtinguisher != EquipableFireExtinguishers.None)
         {
-            Smoke.SetActive(!Smoke.activeSelf);
+            Smoke.SetActive(true);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            Smoke.SetActive(false);
         }
 
         Smoke.transform.Rotate(Vector3.down, Input.GetAxis("Mouse Y"));

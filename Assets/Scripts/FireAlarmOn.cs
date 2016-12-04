@@ -6,7 +6,7 @@ public class FireAlarmOn : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && AudioFile != null)
+        if (Input.GetKeyDown(KeyCode.E) && AudioFile != null)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
