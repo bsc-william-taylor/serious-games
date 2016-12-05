@@ -16,9 +16,13 @@ public class ClickOnHazard : MonoBehaviour
     private HashSet<string> safetyItems = new HashSet<string>();
     private HashSet<string> hazardItems = new HashSet<string>();
     private HashSet<string> normalItems = new HashSet<string>();
+
+    private readonly List<string> postedSafetyItems = new List<string>();
+    private readonly List<string> postedHazards = new List<string>();  
     private string hitObject = "";
-    public string lookingAt = "";
     private Scene scene;
+
+    public string lookingAt = "";
 
     void Start()
     {
@@ -112,7 +116,11 @@ public class ClickOnHazard : MonoBehaviour
                         collectedItems.Add(hitObject);
                         collectedHazardItems.Add(hitObject);
 
-                        WebService.PostAction(this, "hazards");
+                        if (!postedHazards.Contains(hitObject))
+                        {
+                            WebService.PostAction(this, "hazards");
+                            postedHazards.Add(hitObject);
+                        }
                     }
 
                     identified = collectedItems;
@@ -129,7 +137,11 @@ public class ClickOnHazard : MonoBehaviour
                         collectedItems.Add(hitObject);
                         collectedSafetyItems.Add(hitObject);
 
-                        WebService.PostAction(this, "safety");
+                        if (!postedSafetyItems.Contains(hitObject))
+                        {
+                            WebService.PostAction(this, "safety");
+                            postedSafetyItems.Add(hitObject);
+                        }
                     }
 
                     identified = collectedItems;
