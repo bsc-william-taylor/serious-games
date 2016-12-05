@@ -96,7 +96,7 @@ public class ScoreManager : MonoBehaviour
                 didPlayerRun = true;
             }
 
-            if(timer < 0.0f || LeavingBuilding.leftBuilding)
+            if(timer <= 0.0f || LeavingBuilding.leftBuilding)
             {
                 stopTimer = true;
                 if((LeavingBuilding.leftBuilding) && (didPlayerRun == false))
