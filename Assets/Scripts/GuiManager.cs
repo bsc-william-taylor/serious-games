@@ -38,7 +38,7 @@ public class GuiManager : MonoBehaviour
                 {
                     var y = 175;
 
-                    for (var i = 0; i < Math.Min(10, names.Count); i++, y -= 55)
+                    for (var i = 0; i < Math.Min(10, names.Count); i++)
                     {
                         var firesPutOut = names[i]["score"].AsInt;
                         var marshalName = names[i]["name"].ToString();
@@ -49,6 +49,7 @@ public class GuiManager : MonoBehaviour
                         {
                             scores.Add(NewTextElement(i, marshalName, y, 30));
                             added.Add(marshalName);
+                            y -= 55;
                         }
                     }
                 }

@@ -27,9 +27,9 @@ public class ScoreManager : MonoBehaviour
         switch (activeScene.name)
         {
             case "Fighter": timer = 60.5f; break;
-            case "Hazards": timer = 45.0f; break;
-            case "Safety": timer = 45.0f; break;
-            case "Runner": timer = 60.0f; break;
+            case "Hazards": timer = 45.5f; break;
+            case "Safety": timer = 45.5f; break;
+            case "Runner": timer = 60.5f; break;
         }
 
         DoneText.SetActive(false);
