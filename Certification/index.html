@@ -9,7 +9,9 @@
     <script src='./image.js'></script>
     <script>
         function parseName(str) {
-            return str.replace(/\w\S*/g, function(txt){
+            var contents = str.replace("%20", " ");
+
+            return contents.replace(/\w\S*/g, function(txt){
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
         }
@@ -18,6 +20,16 @@
             var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
             var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
             doc.text(textOffset, y, text);
+        }
+
+        function isIEorEDGE() {
+            if (navigator.appName == 'Microsoft Internet Explorer'){
+                return true; 
+            } else if(navigator.appName == "Netscape"){                       
+                return navigator.appVersion.indexOf('Edge') > -1; 
+            }       
+
+            return false;
         }
 
         var hash = window.location.hash;
@@ -32,7 +44,12 @@
         centerText(name, 100);
         doc.setFontSize(16);
         doc.text(195, 182, date);
-        doc.output('dataurl');
+        
+        if(!isIEorEDGE()) {
+            doc.output('dataurl');
+        } else {
+            doc.save('certification.pdf');
+        }
     </script>
 </body>
 </html>
