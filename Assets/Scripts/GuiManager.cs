@@ -236,7 +236,7 @@ public class GuiManager : MonoBehaviour
         }));
     }
 
-    public void OnLoginStudent(string username, string password)
+    public void OnLoginTeacher(string username, string password)
     {
         if (showingPopup) return;
 
@@ -246,18 +246,18 @@ public class GuiManager : MonoBehaviour
 
         StartCoroutine(WebService.Post("/login-student", loginData, (data, error) =>
         {
-            if (string.IsNullOrEmpty(error) && data["loginSuccess"].AsBool)
+            if (string.IsNullOrEmpty(error) && data["version"] != null)
             {
                 WebService.PlayerID = data["idPlayer"].AsInt;
                 WebService.PlayerLoggedIn = true;
 
                 Login.SetActive(false);
 
-                ShowMessageBox("Student logged in");
+                ShowMessageBox("Teacher logged in");
             }
             else
             {
-                ShowMessageBox("Student could not login");
+                ShowMessageBox("Teacher could not login");
             }
         }));
     }

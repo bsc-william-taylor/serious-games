@@ -58,7 +58,7 @@ public class ButtonManager : MonoBehaviour
         var username = GetInput("UsernameInput");
         var password = GetInput("PasswordInput");
 
-        GUI.GetComponent<GuiManager>().OnLoginStudent(username, password);
+        GUI.GetComponent<GuiManager>().OnLoginTeacher(username, password);
     }
 
     public void OnQuit()
