@@ -13,7 +13,7 @@ public class WebService : MonoBehaviour
         public int age;
     };
 
-    private const string Server = "http://www.williamsamtaylor.co.uk:3007";
+    private const string Server = "http://localhost:3007";
 
     public static int LastScene = -1;
     public static int GameplayID = -1;
