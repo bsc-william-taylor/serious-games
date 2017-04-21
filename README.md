@@ -9,15 +9,15 @@ The serious games coursework was a chance for students to research and develop a
 
 ## Assignment
 
-The assignment as mentioned before was to develop a game that should then be submitted as an executable which can run on a standard windows machine. The game should successfully teach and validate knowledge using a in house online learning system. Research undertaken should also be submitted as a professional form of reasearch.
+The assignment as mentioned before was to develop a game that should then be submitted as an executable which can run on a standard windows machine. The game should successfully teach and validate knowledge using a in house online learning system. Research undertaken should also be submitted as a professional form of research.
 
 ## Submission
 
-A full report setting out the research done and a runnable executable for the game were submitted as required. Additionally items such as the custom server and website which generates the PDF certification were also submitted along side the main requirements.
+A full report setting out the research done and a runnable executable for the game were submitted as required. Additionally items such as the custom server and website which generates the PDF certification were also submitted alongside the main requirements.
 
 ## Features
 
-* Four complete sceneraios
+* Four complete scenarios
 * PDF certification generation
 * Video playback for explaining lessons
 * Full building modelled for scenario
