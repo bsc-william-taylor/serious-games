@@ -15,13 +15,6 @@ The assignment as mentioned before was to develop a game that should then be sub
 
 A full report setting out the research done and a runnable executable for the game were submitted as required. Additionally items such as the custom server and website which generates the PDF certification were also submitted alongside the main requirements.
 
-## Features
-
-* Four complete scenarios
-* PDF certification generation
-* Video playback for explaining lessons
-* Full building modelled for scenario
-
 ## License
 
 Apache 2.0
