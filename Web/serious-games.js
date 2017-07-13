@@ -5,6 +5,8 @@ const express = require('express');
 const request = require('request');
 const app = express();
 
+const port = () => Number(process.argv.slice(-1)[0]);
+
 const simpleGet = (url, res) => {
   request(url, (error, response, body) => {
     if (!error && response.statusCode == 200) {
@@ -18,9 +20,9 @@ const simpleGet = (url, res) => {
 const simplePost = (url, body, res) => {
   request.post({ url, body: JSON.stringify(body) }, (error, response, body) => {
     if (!error && response.statusCode == 200) {
-      if(res) res.json(JSON.parse(body));
+      if (res) res.json(JSON.parse(body));
     } else {
-      if(res) res.json({ "msg": "Error getting information" });
+      if (res) res.json({ "msg": "Error getting information" });
     }
   })
 }
@@ -33,23 +35,23 @@ app.post('/action-gameplay', (req, res) => {
   let json = {};
 
   switch (action) {
-    case 'safety': 
-      json = { "action": "foundSafetyItem", "values": { "type": "safety" }};
+    case 'safety':
+      json = { "action": "foundSafetyItem", "values": { "type": "safety" } };
       break;
 
     case 'hazards':
-      json = { "action": "foundHazardItem", "values": { "type": "hazard" }};
+      json = { "action": "foundHazardItem", "values": { "type": "hazard" } };
       break;
 
     case 'evac':
       json = { "action": "escaped", "values": { "action": "escaped" } };
       break;
-    
+
     case 'fires':
-      json = {  "action": "firePutOut",  "values": { "fire": "fire" } };
+      json = { "action": "firePutOut", "values": { "fire": "fire" } };
       break;
-    
-    default: 
+
+    default:
       break;
   }
 
@@ -80,7 +82,7 @@ app.post('/start-gameplay', (req, res) => {
   } else {
     json = {
       idSG: connections.uniqueIdentifier,
-      version: connections.version, 
+      version: connections.version,
       idPlayer: student.idPlayer
     }
   }
@@ -92,7 +94,6 @@ app.post('/success-gameplay', (req, res) => {
   const gameplayID = req.body.gameplayID;
   const url = connections.gameWin(gameplayID);
 
-  //simplePost(url, {}, res);
   res.json({});
 });
 
@@ -100,13 +101,13 @@ app.post('/fail-gameplay', (req, res) => {
   const gameplayID = req.body.gameplayID;
   const url = connections.gameLose(gameplayID);
 
-  //simplePost(url, {}, res);
   res.json({});
 });
 
 app.post('/get-badges', (req, res) => {
   const username = req.body.username;
   const badges = [];
+
   res.json({ 'badges': badges });
 });
 
@@ -117,7 +118,6 @@ app.post('/login-student', (req, res) => {
     password: req.body.password
   };
 
-  //simplePost(connections.login, body, res);
   res.json({ version: 'dummy', idPlayer: 1 });
 });
 
@@ -128,7 +128,6 @@ app.post('/login-guest', (req, res) => {
     password: ""
   };
 
-  //simplePost(connections.login, body, res);
   res.json({ version: 'dummy' });
 });
 
@@ -136,13 +135,13 @@ app.get('/leaderboard', (req, res) => {
   const response = {
     json: body => {
       const noDuplicates = [];
-      
+
       body.fires_put_out.forEach(person => {
         const found = noDuplicates.find(value => {
-           return (value.name === person.name);
+          return (value.name === person.name);
         });
-        
-        if(found == undefined) {
+
+        if (found == undefined) {
           noDuplicates.push(person);
         }
       });
@@ -152,19 +151,21 @@ app.get('/leaderboard', (req, res) => {
     }
   };
 
-  //simpleGet(connections.leaderboard, response);
   res.json({ fires_put_out: [] });
 });
 
 app.get('/info', (req, res) => {
-  //simpleGet(connections.info, res)
-  res.json({"info":"info"});
+  res.json({ "info": "info" });
 });
 
 app.get('/logs', (req, res) => {
-  //simpleGet(connections.logs, res)
-  res.json({"logs":"logs"});
+  res.json({ "logs": "logs" });
 });
 
-app.get('/', (req, res) => res.json({ 'status': `service running` }));
-app.listen(3007, () => console.log('Server online'));
+app.get('/', (req, res) => {
+  res.json({ 'status': `service running` })
+});
+
+app.listen(port(), () => {
+  console.log('Server online')
+});

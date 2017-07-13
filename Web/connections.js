@@ -21,7 +21,7 @@ module.exports = {
     info: url.resolve(ENGAGE_URL, INFO_URL),
     logs: url.resolve(ENGAGE_URL, LOGS_URL),
     gs: url.resolve(ENGAGE_URL, GAME_START),
-    
+
     assess: gameplayID => url.resolve(ENGAGE_URL, `gameplay/${gameplayID}/assessAndScore`),
     gameLose: gameplayID => url.resolve(ENGAGE_URL, `/gameplay/${gameplayID}/end/lose`),
     gameWin: gameplayID => url.resolve(ENGAGE_URL, `/gameplay/${gameplayID}/end/win`)
