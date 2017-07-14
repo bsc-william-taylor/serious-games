@@ -163,7 +163,17 @@ app.get('/logs', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.json({ 'status': `service running` })
+  const html = `
+    <html>
+      <body>
+        <h1>Server online</h1>
+      </body>
+    </html>
+  `;
+
+  res.setHeader('Content-Type', 'text/html');
+  res.write(html);
+  res.end();
 });
 
 app.listen(port(), () => {
